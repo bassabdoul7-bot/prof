@@ -1,0 +1,8 @@
+{
+  "name": "Prof",
+  "short_name": "Prof",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6"
+}
