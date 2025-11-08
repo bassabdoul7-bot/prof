@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 
 export default function ChatInterface() {
   const [input, setInput] = useState('');
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const {
@@ -99,7 +100,7 @@ export default function ChatInterface() {
         <div className="bg-white p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="Prof" className="w-20 h-20" style={{ objectFit: "contain", background: "transparent", padding: 0, margin: 0 }} />
+              <img src="/logo.svg" alt="Prof" className="w-20 h-20 object-contain" />
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-yellow-600 bg-clip-text text-transparent">
                   Prof
@@ -116,10 +117,17 @@ export default function ChatInterface() {
                   {messagesRemaining} messages
                 </span>
               )}
-              {user?.isPremium && (
+              {user?.isPremium ? (
                 <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-3 py-1 rounded-full text-sm font-bold text-white shadow-md">
                   Premium
                 </span>
+              ) : (
+                <button
+                  onClick={() => setShowPremiumModal(true)}
+                  className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition transform hover:scale-105"
+                >
+                  Devenir Premium
+                </button>
               )}
               <button
                 onClick={handleLogout}
@@ -203,7 +211,7 @@ export default function ChatInterface() {
         {messages.length === 0 && (
           <div className="text-center mt-20 p-8 bg-white rounded-2xl shadow-lg max-w-2xl mx-auto border-2 border-green-200">
             <div className="mb-6 flex justify-center">
-              <img src="/logo.svg" alt="Prof" className="w-24 h-24 object-contain" style={{ background: "transparent" }} />
+              <img src="/logo.svg" alt="Prof" className="w-32 h-32 object-contain" />
             </div>
             <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-green-600 to-yellow-600 bg-clip-text text-transparent">
               Jamm ak jaam, {user?.name}!
@@ -212,7 +220,7 @@ export default function ChatInterface() {
             <p className="text-sm text-gray-600">Je vais t aider etape par etape!</p>
             <div className="mt-6 flex justify-center gap-4 text-xs text-gray-500">
               <span>Fait au Senegal</span>
-              <span>ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢</span>
+              <span>•</span>
               <span>Pour les eleves senegalais</span>
             </div>
           </div>
@@ -279,6 +287,89 @@ export default function ChatInterface() {
           </button>
         </div>
       </div>
+
+      {showPremiumModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowPremiumModal(false)}>
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-8 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="text-center mb-6">
+              <div className="text-6xl mb-4">⭐</div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent mb-2">
+                Passe Premium!
+              </h2>
+              <p className="text-gray-600">Debloquer toutes les fonctionnalites</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                <h3 className="font-bold text-green-700 mb-3 flex items-center gap-2">
+                  <span className="text-xl">📚</span> Gratuit
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>15 messages par jour</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Toutes les matieres</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Solutions pas a pas</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-xl border-2 border-yellow-400 shadow-lg">
+                <h3 className="font-bold text-yellow-700 mb-3 flex items-center gap-2">
+                  <span className="text-xl">⭐</span> Premium
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-600">★</span>
+                    <span><strong>Messages illimites</strong></span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-600">★</span>
+                    <span><strong>Reponses plus rapides</strong></span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-600">★</span>
+                    <span><strong>Explications detaillees</strong></span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-600">★</span>
+                    <span><strong>Support prioritaire</strong></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-green-600 to-yellow-500 p-6 rounded-xl text-white mb-6 text-center">
+              <div className="text-4xl font-bold mb-2">2,000 FCFA / mois</div>
+              <div className="text-sm opacity-90">Ou 20,000 FCFA / an (economise 17%)</div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowPremiumModal(false)}
+                className="flex-1 px-6 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 transition font-medium"
+              >
+                Peut-etre plus tard
+              </button>
+              <button
+                onClick={() => {
+                  alert('Paiement Wave / Orange Money bientot disponible! 🇸🇳');
+                  setShowPremiumModal(false);
+                }}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition font-bold shadow-lg"
+              >
+                Souscrire maintenant
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
