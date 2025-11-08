@@ -1,16 +1,13 @@
 import axios from 'axios';
-import { useAuthStore } from '../stores/authStore'; // <-- IMPORT THE STORE
+import { useAuthStore } from '../stores/authStore';
 
-// This is your existing 'api' instance
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:3001/api',
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// --- NEW CODE ---
-// This adds the 'x-auth-token' to every request if you are logged in
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token;
@@ -23,7 +20,6 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-// --- END NEW CODE ---
 
 export interface SolveRequest {
   problem: string;
@@ -45,13 +41,10 @@ export const chatAPI = {
     const response = await api.post('/chat/solve', data);
     return response.data;
   },
-
   getConversations: async (userId: string) => {
     const response = await api.get(`/chat/conversations/${userId}`);
     return response.data;
   }
 };
 
-// We also need to export the base 'api' instance
-// so your ChatInterface can use it for payment
 export { api };
